@@ -3,240 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexTodo | The Technical Manifesto & Roadmap</title>
+    <title>HexTodo | The 5W1H Operational Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        hex: { primary: '#0ea5e9', secondary: '#6366f1', dark: '#0f172a', surface: '#f8fafc' }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; line-height: 1.7; scroll-behavior: smooth; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .section-tag { @apply text-teal-600 font-bold tracking-widest text-xs uppercase mb-2 block; }
-        .logic-card { @apply p-6 bg-white border border-slate-200 rounded-xl hover:shadow-md transition-all border-l-4 border-l-teal-600; }
+        body { background-color: #f8fafc; color: #1e293b; scroll-behavior: smooth; }
+        .hexagon { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+        .section-view { display: none; }
+        .section-view.active { display: block; animation: fadeInUp 0.5s ease-out forwards; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-active { color: #0ea5e9; border-bottom: 2px solid #0ea5e9; }
+        .formula-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="selection:bg-hex-primary selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 bg-white/80 backdrop-blur-md border-b z-50 p-4">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold text-teal-800 tracking-tight">HexTodo</div>
-            <div class="hidden md:flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                <a href="#overview" class="hover:text-teal-700">Overview</a>
-                <a href="#philosophy" class="hover:text-teal-700">Philosophy</a>
-                <a href="#functions" class="hover:text-teal-700">Functions</a>
-                <a href="#future" class="hover:text-teal-700">Roadmap</a>
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-hex-dark hexagon flex items-center justify-center text-white font-black text-[10px]">HEX</div>
+                <span class="text-2xl font-black tracking-tighter uppercase text-slate-900">HexTodo</span>
             </div>
-            <span class="text-[10px] bg-teal-100 text-teal-800 px-2 py-1 rounded font-bold uppercase">Logic & Design Phase</span>
+            <div class="hidden lg:flex gap-10 text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.2em]">
+                <button onclick="nav('overview')" id="btn-overview" class="hover:text-hex-primary transition-all pb-1">Overview</button>
+                <button onclick="nav('philosophy')" id="btn-philosophy" class="hover:text-hex-primary transition-all pb-1">Philosophy</button>
+                <button onclick="nav('logic')" id="btn-logic" class="hover:text-hex-primary transition-all pb-1">Structural Logic</button>
+                <button onclick="nav('roadmap')" id="btn-roadmap" class="hover:text-hex-primary transition-all pb-1">Roadmap</button>
+            </div>
+            <a href="#waitlist-anchor" class="bg-hex-primary text-white text-[11px] font-black px-6 py-3 rounded-xl uppercase tracking-widest shadow-lg shadow-blue-200">Join Waitlist</a>
         </div>
     </nav>
 
-	    <!-- Header / User Story with Waitlist -->
-    <header class="py-20 px-6 max-w-4xl mx-auto text-center border-b border-slate-100">
-        <h1 class="text-5xl font-black mb-6 tracking-tight text-slate-900">HexTodo: The Practical <br><span class="text-teal-700">Operations Engine.</span></h1>
-        
-        <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
-            A research project designed to solve <strong>Information Overload</strong> for Technical Operators through a healthy, structured 6-sided framework.
-        </p>
+    <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
 
-        <!-- Waitlist Form (Replace 'your-form-id' with your actual Formspree ID) -->
-        <div class="max-w-md mx-auto mb-10">
-            <form action="https://formspree.io/f/mreozqaa" method="POST" class="flex flex-col sm:flex-row gap-2">
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Enter your email to follow the build" 
-                    required 
-                    class="flex-1 px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-teal-600 text-sm shadow-sm"
-                >
-                <button 
-                    type="submit" 
-                    class="bg-teal-700 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-teal-800 transition shadow-md"
-                >
-                    Notify Me
-                </button>
-            </form>
-            <p class="mt-3 text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">
-                Support the project. No "Gems" or "Secrets"—just practical updates.
-            </p>
-        </div>
-
-        <div class="flex justify-center gap-4">
-            <a href="#functions" class="text-slate-500 hover:text-teal-700 font-bold text-xs uppercase tracking-widest border-b border-slate-200 hover:border-teal-600 pb-1 transition-all">
-                Explore the Architecture ↓
-            </a>
-        </div>
-    </header>
-
-    <!-- (PROJECT OVERVIEW) & (OBJECTIVES) -->
-    <section id="overview" class="py-16 px-6 max-w-5xl mx-auto border-t">
-        <div class="grid md:grid-cols-2 gap-12">
-            <div>
-                <span class="section-tag">(PROJECT OVERVIEW)</span>
-                <h2 class="text-3xl font-bold mb-6">A Workflow for Sanity.</h2>
-                <p class="text-slate-600 mb-4 text-sm">
-                    HexTodo is a <strong>Practical SOP Manager</strong> built with love. It integrates a Task List with an Asset/Knowledge-Base engine to overcome Information Overload.
-                </p>
-                <p class="text-slate-600 text-sm italic">
-                    "Focus on operation, not on managing." No duplication—preview files exactly where they sit on your computer.
-                </p>
-            </div>
-            <div class="bg-teal-50 p-8 rounded-2xl border border-teal-100">
-                <span class="section-tag text-teal-800">(OBJECTIVES)</span>
-                <ul class="space-y-4">
-                    <li class="flex items-start gap-3 text-sm">
-                        <span class="text-teal-600 font-bold">01</span>
-                        <p><strong>Step Process:</strong> Breaking big goals into serious, manageable steps.</p>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm">
-                        <span class="text-teal-600 font-bold">02</span>
-                        <p><strong>SOP Guided Task:</strong> Assigning tasks without repeating instructions (Shared SOPs).</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- (HISTORIES & PHILOSOPHIES) -->
-    <section id="philosophy" class="bg-slate-900 text-white py-20 px-6">
-        <div class="max-w-4xl mx-auto">
-            <span class="section-tag text-teal-400 text-center">(HISTORIES & PHILOSOPHIES)</span>
-            <h2 class="text-3xl font-bold text-center mb-12">Built on Universal Truths.</h2>
-            
-            <div class="grid md:grid-cols-2 gap-10">
+        <section id="overview" class="section-view active">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
                 <div>
-                    <h3 class="font-bold text-teal-400 mb-3 uppercase text-xs tracking-widest">The Timeline</h3>
-                    <p class="text-xs text-slate-400 italic mb-4">"From Egyptian papyrus lists (2400 BCE) to modern digital checklists..."</p>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        Digital To-Do origins in the 80s digitized portability. HexTodo returns to the <strong>Hybrid Approach</strong>: Waterfall planning (Long-term) with Agile execution (Daily).
+                    <h2 class="text-hex-primary font-black text-xs uppercase tracking-[0.3em] mb-4">The Strategic Vision</h2>
+                    <h1 class="text-4xl lg:text-5xl font-black text-slate-900 leading-tight mb-6 uppercase italic">
+                        The 5W1H Hub for <span class="text-hex-primary">High-Energy Execution.</span>
+                    </h1>
+                    
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed italic">
+                        Most tools manage lists; we manage operations. HexTodo eliminates "Management Debt" by fusing your daily tasks with the professional Standard Operating Procedures (SOPs) and local assets required to finish them.
                     </p>
-                </div>
-                <div>
-                    <h3 class="font-bold text-teal-400 mb-3 uppercase text-xs tracking-widest">The Formula</h3>
-                    <div class="mono bg-slate-800 p-4 rounded-lg text-teal-300 text-xs border border-slate-700 mb-4">
-                        Task = Time [Clock & Calendar] + Resources [Assets, People, Knowledge-Based]
+
+                    <div class="space-y-4 mb-10">
+						<div class="flex items-start gap-3">
+							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+							<p class="text-sm text-slate-600 leading-6"><strong>Built-in SOPs:</strong> Never repeat instructions. Anchor every task to a repeatable, step-by-step procedure.</p>
+						</div>
+						<div class="flex items-start gap-3">
+							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+							<p class="text-sm text-slate-600 leading-6"><strong>Local Asset Linker:</strong> Direct desktop mapping to heavy project files (Video, Docs) with zero cloud friction.</p>
+						</div>
+						<div class="flex items-start gap-3">
+							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+							<p class="text-sm text-slate-600 leading-6"><strong>Energy-Task Matching:</strong> Match your to-do list to the mental energy you have available, not just the clock.</p>
+						</div>
+					</div>
+
+                    <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 mb-10">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Built For High-Output Professionals</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-bold text-xs text-slate-800 uppercase mb-2 italic">The Scalable Individual</h5>
+                                <p class="text-[10px] text-slate-500 leading-relaxed">Freelancers and Virtual Assistants who need to handle multiple clients without losing the "How" for each project.</p>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-xs text-slate-800 uppercase mb-2 italic">The Technical Architect</h5>
+                                <p class="text-[10px] text-slate-500 leading-relaxed">Media Technical Operators and Production Managers managing complex local assets and strict broadcast SOPs.</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <h5 class="font-bold text-xs text-slate-800 uppercase mb-2 italic">The High-Energy Student</h5>
+                                <p class="text-[10px] text-slate-500 leading-relaxed">Working students balancing academic rigor with professional obligations through systematic structure.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-slate-300 text-sm">
-                        Our goal: <strong>Finish the list—not follow the order.</strong> Match tasks to the energy you can afford.
-                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-bold uppercase tracking-tighter">Operational Benefit</h3>
+                            <span class="text-2xl font-black text-hex-primary">-40%</span>
+                        </div>
+                        <p class="text-sm text-slate-500 mb-8 italic">Projected reduction in context-switching time by unifying SOPs, assets, and schedules in a single hub.</p>
+                        
+                        <div class="space-y-4">
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Deliverables</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">SOP Checklist Manager</div>
+                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Local Asset Linker</div>
+                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Knowledge-Base Hub</div>
+                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Smart overlap Calendar</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="waitlist-anchor" class="bg-blue-50 p-8 rounded-[2.5rem] border-2 border-blue-100">
+                        <h4 class="text-sm font-bold text-slate-800 mb-4">Join the Research-First Waitlist</h4>
+                        <form action="https://formspree.io/f/mreozqaa" method="POST" class="flex flex-col gap-2">
+                            <input type="email" name="email" placeholder="Enter your email" required 
+                                   class="px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-hex-primary">
+                            <button type="submit" class="bg-hex-primary text-white font-black text-xs uppercase py-3 rounded-xl shadow-lg hover:bg-blue-600 transition-colors">
+                                Secure Early Access
+                            </button>
+                        </form>
+                        <p class="text-[9px] text-slate-400 mt-4 text-center italic">Local-first architecture. Privacy for Humanity.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- (SECTIONS AND STRUCTURES) -->
-    <section id="functions" class="py-20 px-6 max-w-6xl mx-auto">
-        <span class="section-tag text-center">Functional Architecture</span>
-        <h2 class="text-3xl font-bold text-center mb-16 text-slate-800 tracking-tight">The Hex Engine Components.</h2>
+        <section id="philosophy" class="section-view">
+            <div class="mb-16">
+                <h2 class="text-hex-primary font-black text-xs uppercase tracking-[0.3em] mb-4">Foundation: Histories & Philosophies</h2>
+                <h3 class="text-4xl font-black text-slate-900 uppercase italic leading-none">Built on Universal Truths.</h3>
+            </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid lg:grid-cols-12 gap-12 items-start">
+                
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-hex-primary font-black text-4xl">01</div>
+                            <h4 class="text-xl font-bold uppercase tracking-tight text-slate-800 italic">Step Process</h4>
+                        </div>
+                        <p class="text-slate-600 text-base leading-relaxed">
+                            Breaking big goals into serious, manageable steps. We decompose complexity into atomic, executable actions.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-hex-primary font-black text-4xl">02</div>
+                            <h4 class="text-xl font-bold uppercase tracking-tight text-slate-800 italic">SOP Guided Task</h4>
+                        </div>
+                        <p class="text-slate-600 text-base leading-relaxed">
+                            Assigning tasks without repeating instructions. Shared SOPs ensure knowledge is distributed and consistent across operations.
+                        </p>
+                    </div>
+
+                    <div class="formula-card p-10 rounded-[2.5rem] text-white relative overflow-hidden shadow-2xl mt-12">
+                        <div class="relative z-10">
+                            <h4 class="text-hex-primary font-black text-[10px] uppercase tracking-[0.4em] mb-8">The Universal Formula</h4>
+                            <div class="flex flex-col gap-6 mb-8">
+                                <div class="text-4xl font-black italic uppercase tracking-tighter">Task = Time + Resources</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    [Clock & Calendar] + [Assets, People, Knowledge-Based]
+                                </p>
+                            </div>
+                            <p class="text-slate-200 text-sm leading-relaxed border-t border-slate-700 pt-6 italic">
+                                "Finish the list—not follow the order. Match tasks to the energy you can afford."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5">
+                    <div class="bg-slate-900 text-white p-10 rounded-[3rem] shadow-xl relative overflow-hidden">
+                        <h4 class="font-black text-xs text-hex-primary uppercase tracking-[0.2em] mb-10">Operational Heritage</h4>
+                        
+                        <div class="space-y-10 relative">
+                            <div class="absolute left-3 top-0 bottom-0 w-px bg-slate-700"></div>
+                            
+                            <div class="relative pl-10">
+                                <div class="absolute left-0 w-6 h-6 bg-slate-800 border-2 border-hex-primary rounded-full z-10 hexagon"></div>
+                                <span class="text-[10px] font-bold text-hex-primary uppercase">2400 BCE — The Papyrus Checklist</span>
+                                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                    Egyptian scribes used the first recorded checklists to manage the massive logistics of monument construction. This birthed the <strong>To-Do</strong>: The fundamental human need to document "What" must be done to prevent failure.
+                                </p>
+                            </div>
+
+                            <div class="relative pl-10">
+                                <div class="absolute left-0 w-6 h-6 bg-slate-800 border-2 border-hex-secondary rounded-full z-10 hexagon"></div>
+                                <span class="text-[10px] font-bold text-hex-secondary uppercase">1700s — Naval & Military Discipline</span>
+                                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                    Naval units developed <strong>Repeatable Onboard Procedures</strong> (The first SOPs). In the chaos of the high seas, sailors needed the "How" fused to the "What." This discipline turned groups of men into synchronized, life-saving machines.
+                                </p>
+                            </div>
+
+                            <div class="relative pl-10">
+                                <div class="absolute left-0 w-6 h-6 bg-slate-800 border-2 border-slate-500 rounded-full z-10 hexagon"></div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">1980s — Digital Portability</span>
+                                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                    The first software-based To-Do lists digitized the checklist. For the first time, tasks became bits of data—portable and searchable—but they lost the "Deep Context" of the physical procedures that came before them.
+                                </p>
+                            </div>
+
+                            <div class="relative pl-10 bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50">
+                                <div class="absolute left-0 w-6 h-6 bg-hex-primary border-2 border-white rounded-full z-10 hexagon shadow-[0_0_15px_rgba(14,165,233,0.5)]"></div>
+                                <span class="text-[10px] font-black text-white uppercase tracking-widest">PRESENT — The Hybrid Approach</span>
+                                <p class="text-xs text-slate-300 mt-3 leading-relaxed font-medium italic">
+                                    HexTodo is born from a deep love for focus and stewardship. We re-integrate the 18th-century Naval "How" with the modern Digital "What." 
+                                </p>
+                                <p class="text-[10px] text-hex-primary mt-3 font-bold uppercase tracking-tighter">
+                                    Waterfall Planning + Agile Execution
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 pt-8 border-t border-slate-800">
+                            <p class="text-[11px] text-slate-500 leading-relaxed italic">
+                                Our dedication stems from a desire to protect your most limited resource: <strong>Focus</strong>. By making smart decisions through structural logic, we honor the legacy of human operation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="section-view">
+			<div class="flex flex-col lg:flex-row gap-16 items-center">
+				<div class="lg:w-1/2">
+					<h2 class="text-hex-primary font-black text-xs uppercase tracking-[0.3em] mb-4">The Logic Standard</h2>
+					<h3 class="text-4xl font-black text-slate-900 mb-8 uppercase italic leading-tight">Dimensional Integrity</h3>
+					
+					<div class="bg-blue-50 p-8 rounded-[2rem] border-l-4 border-hex-primary mb-8">
+						<p class="text-slate-700 leading-relaxed italic text-sm">
+							"The <strong>'Hex'</strong> in HexTodo represents the six dimensions of a professional operation. Every task is anchored to a structural logic that prevents operational failure: if even one side of the hexagon is weak, the <strong>task</strong> collapses. We build on the <strong>5W1H standard</strong> to ensure that your focus is protected and your resources are never wasted."
+						</p>
+					</div>
+		
+					<div class="grid grid-cols-2 gap-4">
+						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+							<div class="w-8 h-8 hexagon bg-hex-primary flex items-center justify-center text-white text-[10px] font-bold">W1</div>
+							<div class="flex flex-col">
+								<span class="text-[10px] text-slate-400 font-black uppercase">What</span>
+								<span class="text-xs font-bold text-slate-800 italic">Action</span>
+							</div>
+						</div>
+						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+							<div class="w-8 h-8 hexagon bg-hex-secondary flex items-center justify-center text-white text-[10px] font-bold">H1</div>
+							<div class="flex flex-col">
+								<span class="text-[10px] text-slate-400 font-black uppercase">How</span>
+								<span class="text-xs font-bold text-slate-800 italic">SOP</span>
+							</div>
+						</div>
+						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+							<div class="w-8 h-8 hexagon bg-emerald-500 flex items-center justify-center text-white text-[10px] font-bold">W4</div>
+							<div class="flex flex-col">
+								<span class="text-[10px] text-slate-400 font-black uppercase">Where</span>
+								<span class="text-xs font-bold text-slate-800 italic">Assets</span>
+							</div>
+						</div>
+						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+							<div class="w-8 h-8 hexagon bg-amber-500 flex items-center justify-center text-white text-[10px] font-bold">W3</div>
+							<div class="flex flex-col">
+								<span class="text-[10px] text-slate-400 font-black uppercase">When</span>
+								<span class="text-xs font-bold text-slate-800 italic">Schedule</span>
+							</div>
+						</div>
+					</div>
+				</div>
+		
+				<div class="lg:w-1/2 w-full bg-white p-12 rounded-[3rem] border border-slate-200 shadow-xl relative">
+					<div class="absolute top-8 right-12 text-[10px] font-black text-slate-300 uppercase tracking-widest italic">Hex-Logic Analysis</div>
+					<h4 class="text-center font-bold text-slate-400 uppercase tracking-[0.2em] text-[10px] mb-8">Stability Radar</h4>
+					<div class="h-80">
+						<canvas id="logicChart"></canvas>
+					</div>
+					<p class="text-center text-[10px] text-slate-400 mt-6 italic">Visualizing the integrity of a standard professional task.</p>
+				</div>
+			</div>
+		</section>
+
+        <section id="roadmap" class="section-view">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-slate-900 uppercase italic">Execution Roadmap</h2>
+                <p class="text-slate-500 mt-4 max-w-3xl mx-auto italic">
+                    "Truth in Planning: HexTodo is an operational assistant designed to enhance your performance, not a lifestyle tool that promises to live your life for you."
+                </p>
+            </div>
             
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Home Dashboard)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>User Greet</strong> • <strong>Quote of the Day</strong> • Counts for Todo/Doing/Done/Overdue • <strong>Category Summary</strong> • <strong>Smart Calendar</strong> with colors [G/R/Y/B].</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Task Panel)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>[Now]</strong> Focus Pin • <strong>[Today]</strong> 3-7 Task Limit • <strong>[Upcoming]</strong> Horizon • <strong>Priority</strong> Temperature Sliders • Manual Sorting.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Task)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>(SOP Checklist)</strong> with Step Processes • <strong>(Media Systems)</strong> Internal Player for local files/URLs • Recurrence rules & Priority levels.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(People)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed">Workload viewing • Names & Roles • Assigning tasks to [Role, Team, Group] • Profile Avatars.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Assets)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>Bookmark Manager</strong> with Webpage Snapshots • <strong>Reusable Resources</strong> • Search-to-Attach logic for SOP steps.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Knowledge-Based)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>Markdown Engine</strong> for instructions • Import/Export [Txt, Md, Docx, Pdf] • Overcoming info-overload via technical reference guides.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Quick Settings)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>Light/Dark Toggle</strong> • (Category) Manager • <strong>(Archive Decision Point):</strong> Delete, Reuse (keep SOP), or Restore.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Space/Workplace)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed">Isolated environments for Personal/Work/Hobby • Unique SOPs, Assets, and People per workspace.</p>
-            </div>
-
-            <div class="logic-card">
-                <h4 class="font-bold mb-3 text-slate-800 uppercase text-xs tracking-widest">(Settings)</h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed"><strong>(User Info)</strong> & Country data • <strong>(Themes Style)</strong> • <strong>(Task Behaviours)</strong> for archive rules and focus limits.</p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- (UX & UI SYSTEM) -->
-    <section class="bg-white py-20 px-6 border-y">
-        <div class="max-w-4xl mx-auto">
-            <span class="section-tag">(UX & UI SYSTEM)</span>
-            <h2 class="text-3xl font-bold mb-10">Healthy Experience Architecture.</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <p class="text-slate-600 font-medium italic">"Real things to destroy toxic feelings..."</p>
-                    <p class="text-sm text-slate-500">
-                        <strong>Strikethrough Gestures</strong> for deletion. Bottom-aligned [Add Task] triggers to build proactive habits. Expandable layers for focus freedom.
-                    </p>
-                </div>
-                <div class="bg-slate-50 p-6 rounded-xl border">
-                    <h4 class="font-bold text-xs mb-3 uppercase tracking-widest">Healthy Defaults</h4>
-                    <ul class="text-[10px] space-y-2 text-slate-600 font-bold uppercase tracking-tighter">
-                        <li>• Reduced Cognitive Load</li>
-                        <li>• Full Keyboard Accessibility</li>
-                        <li>• [Now] Maximum limit (1-3)</li>
-                        <li>• Relative Time Formatting</li>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="p-8 bg-hex-dark rounded-[2.5rem] text-white border-2 border-slate-800">
+                    <span class="text-[10px] font-black text-hex-primary uppercase tracking-[0.3em]">Phase 1</span>
+                    <h4 class="font-bold text-xl mt-4 mb-4">Logic & Research</h4>
+                    <ul class="text-[10px] text-slate-400 space-y-2 uppercase tracking-wide">
+                        <li>✅ 5W1H Logic Mapping</li>
+                        <li>✅ History of SOPs Research</li>
+                        <li>✅ Data Dictionary Validation</li>
                     </ul>
+                    <p class="mt-6 text-[10px] font-black text-hex-primary uppercase tracking-widest">COMPLETED</p>
+                </div>
+                <div class="p-8 bg-white rounded-[2.5rem] border border-slate-200 shadow-sm">
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Phase 2</span>
+                    <h4 class="font-bold text-xl mt-4 mb-4 text-slate-800">Core Engineering</h4>
+                    <p class="text-xs text-slate-500">Currently architecting the Flet/Python framework and local asset mapping protocols.</p>
+                    <p class="mt-6 text-[10px] font-black text-hex-secondary uppercase tracking-widest">IN PROGRESS</p>
+                </div>
+                <div class="p-8 bg-white rounded-[2.5rem] border border-slate-200 opacity-50">
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Phase 3</span>
+                    <h4 class="font-bold text-xl mt-4 mb-4 text-slate-800">Early Access</h4>
+                    <p class="text-xs text-slate-500">Live testing with select Freelancers and Media Professionals to validate system integrity.</p>
+                </div>
+                <div class="p-8 bg-white rounded-[2.5rem] border border-slate-200 opacity-50">
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Phase 4</span>
+                    <h4 class="font-bold text-xl mt-4 mb-4 text-slate-800">Global Hub</h4>
+                    <p class="text-xs text-slate-500">Shared SOP Marketplaces and local asset AI indexing for large-scale production.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- (FUTURE DEVELOPEMENTS) -->
-    <section id="future" class="py-20 px-6 max-w-5xl mx-auto">
-        <span class="section-tag text-center">Development Roadmap</span>
-        <h2 class="text-3xl font-bold text-center mb-16">(FUTURE DEVELOPEMENTS)</h2>
+    </main>
 
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="p-6 border border-dashed rounded-xl bg-white">
-                <h4 class="font-bold mb-2 text-xs uppercase tracking-widest">(Home Dashboard) Future</h4>
-                <p class="text-[11px] text-slate-500 italic">Reminder Banners • Clock Timers (Pomodoro/Break) • Time-blocking Calendar views.</p>
+    <footer class="bg-white border-t border-slate-200 py-20 px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <h3 class="text-2xl font-black text-slate-900 mb-2 uppercase italic underline decoration-hex-primary underline-offset-8">THANKS BE TO GOD!</h3>
+            <p class="text-[10px] font-black text-hex-primary uppercase tracking-[0.4em] mb-10">To God Be The Glory</p>
+            <p class="text-slate-400 text-sm leading-relaxed mb-10 italic">
+                HexTodo: Built for the practical steward. Focus on operation, not in managing.
+            </p>
+            <div class="flex justify-center gap-8 text-[9px] font-black text-slate-300 uppercase tracking-widest">
+                <span>Philippines Base</span>
+                <span>•</span>
+                <span>Localhost-First</span>
+                <span>•</span>
+                <span>Python/Flet Engine</span>
             </div>
-            <div class="p-6 border border-dashed rounded-xl bg-white">
-                <h4 class="font-bold mb-2 text-xs uppercase tracking-widest">(Task) Automations</h4>
-                <p class="text-[11px] text-slate-500 italic">Time Duration features per step • Group assignments • Automation rules.</p>
-            </div>
-            <div class="p-6 border border-dashed rounded-xl bg-teal-50">
-                <h4 class="font-bold mb-2 text-xs uppercase tracking-widest">(PRIVACY & SECURITY)</h4>
-                <p class="text-[11px] text-teal-800 italic">Built-in Malware Scanner • Isolate potential malwares • Secure User Auth • OWASP Mitigation.</p>
-            </div>
-            <div class="p-6 border border-dashed rounded-xl bg-slate-900 text-white">
-                <h4 class="font-bold mb-2 text-xs uppercase tracking-widest text-teal-400">Mobile & AI</h4>
-                <p class="text-[11px] text-slate-400 italic">Planning Phases: (MOBILE DEVELOPMENT) • (AI Integration).</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-20 bg-slate-900 text-white text-center">
-        <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 mb-4">To God be the Glory!</p>
-        <p class="text-xs text-slate-500 italic mb-8 max-w-md mx-auto">
-            "Healthy experiences and interfaces, it's a healthy product and user."
-        </p>
-        <div class="max-w-xs mx-auto border-t border-slate-800 pt-8">
-            <p class="text-[9px] text-slate-500 uppercase tracking-widest">HexTodo &copy; 2026 | Self-Study Student Project</p>
         </div>
     </footer>
 
+    <script>
+        function nav(id) {
+            document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
+            const btn = document.getElementById('btn-' + id);
+            if (btn) btn.classList.add('nav-active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const ctx = document.getElementById('logicChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['WHAT', 'WHY', 'WHEN', 'WHERE', 'WHO', 'HOW'],
+                datasets: [{
+                    label: 'Coverage',
+                    data: [100, 85, 80, 95, 70, 100],
+                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                    borderColor: '#0ea5e9',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#fff'
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        angleLines: { color: '#f1f5f9' },
+                        grid: { color: '#f1f5f9' },
+                        pointLabels: { font: { weight: 'bold', size: 10, family: 'Plus Jakarta Sans' } },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+
+        document.getElementById('btn-overview').classList.add('nav-active');
+    </script>
 </body>
 </html>
