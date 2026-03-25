@@ -30,11 +30,18 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .nav-active { color: #0ea5e9; border-bottom: 2px solid #0ea5e9; }
         .formula-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        
+        /* Modal Animation */
+        #waitlist-modal { transition: opacity 0.3s ease-out; }
+        #waitlist-modal.active { opacity: 1; pointer-events: auto; }
+        #waitlist-modal:not(.active) { opacity: 0; pointer-events: none; }
+        .modal-content { transition: transform 0.3s ease-out; transform: scale(0.95); }
+        #waitlist-modal.active .modal-content { transform: scale(1); }
     </style>
 </head>
-<body class="selection:bg-hex-primary selection:text-white">
+<body class="selection:bg-hex-primary selection:text-white relative">
 
-    <nav class="fixed top-0 w-full z-50 glass">
+    <nav class="fixed top-0 w-full z-40 glass">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-hex-dark hexagon flex items-center justify-center text-white font-black text-[10px]">HEX</div>
@@ -46,9 +53,31 @@
                 <button onclick="nav('logic')" id="btn-logic" class="hover:text-hex-primary transition-all pb-1">Structural Logic</button>
                 <button onclick="nav('roadmap')" id="btn-roadmap" class="hover:text-hex-primary transition-all pb-1">Roadmap</button>
             </div>
-            <a href="#waitlist-anchor" class="bg-hex-primary text-white text-[11px] font-black px-6 py-3 rounded-xl uppercase tracking-widest shadow-lg shadow-blue-200">Join Waitlist</a>
+            <button onclick="toggleModal()" class="bg-hex-primary text-white text-[11px] font-black px-6 py-3 rounded-xl uppercase tracking-widest shadow-lg shadow-blue-200 hover:bg-blue-600 transition-colors">Join Waitlist</button>
         </div>
     </nav>
+
+    <div id="waitlist-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="modal-content bg-white w-full max-w-md rounded-[2.5rem] p-10 relative shadow-2xl border border-slate-200">
+            <button onclick="toggleModal()" class="absolute top-6 right-6 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors font-bold">✕</button>
+            
+            <div class="w-12 h-12 bg-hex-primary hexagon flex items-center justify-center text-white font-black text-[12px] mb-6 shadow-lg shadow-blue-200">HEX</div>
+            <h4 class="text-2xl font-black text-slate-900 mb-2 uppercase italic tracking-tight">Research-First Waitlist</h4>
+            <p class="text-sm text-slate-500 mb-8 italic leading-relaxed">Secure your spot for the early access beta. Local-first architecture. Privacy for Humanity.</p>
+            
+            <form action="https://formspree.io/f/mreozqaa" method="POST" class="flex flex-col gap-4">
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Your Email</label>
+                    <input type="email" name="email" placeholder="hello@professional.com" required 
+                           class="w-full px-5 py-4 rounded-xl border-2 border-slate-100 bg-slate-50 text-sm focus:outline-none focus:border-hex-primary focus:bg-white transition-all">
+                </div>
+                <button type="submit" class="bg-slate-900 text-white font-black text-xs uppercase py-4 rounded-xl shadow-xl hover:bg-slate-800 transition-all tracking-widest mt-2">
+                    Secure Early Access
+                </button>
+            </form>
+            <p class="text-[9px] text-slate-400 mt-6 text-center italic uppercase tracking-widest">To God Be The Glory</p>
+        </div>
+    </div>
 
     <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
 
@@ -64,20 +93,30 @@
                         Most tools manage lists; we manage operations. HexTodo eliminates "Management Debt" by fusing your daily tasks with the professional Standard Operating Procedures (SOPs) and local assets required to finish them.
                     </p>
 
+                    <div class="flex flex-wrap gap-4 mb-10">
+                        <a href="https://hextodo-u3yfnhe.gamma.site/" target="_blank" class="flex items-center gap-3 bg-slate-900 text-white px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">
+                            <span>View Pitch Deck</span>
+                            <span class="text-hex-primary">↗</span>
+                        </a>
+                        <button onclick="toggleModal()" class="px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest border-2 border-slate-200 text-slate-600 hover:border-hex-primary hover:text-hex-primary transition-all bg-white">
+                            Join Waitlist
+                        </button>
+                    </div>
+
                     <div class="space-y-4 mb-10">
-						<div class="flex items-start gap-3">
-							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
-							<p class="text-sm text-slate-600 leading-6"><strong>Built-in SOPs:</strong> Never repeat instructions. Anchor every task to a repeatable, step-by-step procedure.</p>
-						</div>
-						<div class="flex items-start gap-3">
-							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
-							<p class="text-sm text-slate-600 leading-6"><strong>Local Asset Linker:</strong> Direct desktop mapping to heavy project files (Video, Docs) with zero cloud friction.</p>
-						</div>
-						<div class="flex items-start gap-3">
-							<div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
-							<p class="text-sm text-slate-600 leading-6"><strong>Energy-Task Matching:</strong> Match your to-do list to the mental energy you have available, not just the clock.</p>
-						</div>
-					</div>
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+                            <p class="text-sm text-slate-600 leading-6"><strong>Built-in SOPs:</strong> Never repeat instructions. Anchor every task to a repeatable, step-by-step procedure.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+                            <p class="text-sm text-slate-600 leading-6"><strong>Local Asset Linker:</strong> Direct desktop mapping to heavy project files (Video, Docs) with zero cloud friction.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 text-hex-primary font-bold leading-6">»</div>
+                            <p class="text-sm text-slate-600 leading-6"><strong>Energy-Task Matching:</strong> Match your to-do list to the mental energy you have available, not just the clock.</p>
+                        </div>
+                    </div>
 
                     <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 mb-10">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Built For High-Output Professionals</h4>
@@ -98,35 +137,38 @@
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold uppercase tracking-tighter">Operational Benefit</h3>
-                            <span class="text-2xl font-black text-hex-primary">-40%</span>
+                <div class="space-y-6 lg:mt-12">
+                    <div class="bg-white p-10 rounded-[3rem] border border-slate-200 shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-hex-primary/5 rounded-full blur-3xl"></div>
+                        <div class="flex justify-between items-center mb-8 relative z-10">
+                            <h3 class="font-black uppercase tracking-widest text-sm text-slate-800">Operational Benefit</h3>
+                            <span class="text-4xl font-black text-hex-primary drop-shadow-sm">-40%</span>
                         </div>
-                        <p class="text-sm text-slate-500 mb-8 italic">Projected reduction in context-switching time by unifying SOPs, assets, and schedules in a single hub.</p>
+                        <p class="text-sm text-slate-500 mb-10 italic leading-relaxed relative z-10 border-l-2 border-hex-primary pl-4">
+                            Projected reduction in context-switching time by unifying SOPs, assets, and schedules in a single hub.
+                        </p>
                         
-                        <div class="space-y-4">
-                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Deliverables</h4>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">SOP Checklist Manager</div>
-                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Local Asset Linker</div>
-                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Knowledge-Base Hub</div>
-                                <div class="p-3 bg-slate-50 rounded-xl text-[9px] font-black uppercase text-slate-400">Smart overlap Calendar</div>
+                        <div class="space-y-4 relative z-10">
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">System Deliverables</h4>
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="p-4 bg-slate-50 rounded-2xl text-[10px] font-black uppercase text-slate-500 flex items-center gap-3 border border-slate-100">
+                                    <div class="w-2 h-2 rounded-full bg-hex-primary"></div>
+                                    SOP Checklist Manager
+                                </div>
+                                <div class="p-4 bg-slate-50 rounded-2xl text-[10px] font-black uppercase text-slate-500 flex items-center gap-3 border border-slate-100">
+                                    <div class="w-2 h-2 rounded-full bg-hex-secondary"></div>
+                                    Local Asset Linker
+                                </div>
+                                <div class="p-4 bg-slate-50 rounded-2xl text-[10px] font-black uppercase text-slate-500 flex items-center gap-3 border border-slate-100">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                    Knowledge-Base Hub
+                                </div>
+                                <div class="p-4 bg-slate-50 rounded-2xl text-[10px] font-black uppercase text-slate-500 flex items-center gap-3 border border-slate-100">
+                                    <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                                    Smart Overlap Calendar
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div id="waitlist-anchor" class="bg-blue-50 p-8 rounded-[2.5rem] border-2 border-blue-100">
-                        <h4 class="text-sm font-bold text-slate-800 mb-4">Join the Research-First Waitlist</h4>
-                        <form action="https://formspree.io/f/mreozqaa" method="POST" class="flex flex-col gap-2">
-                            <input type="email" name="email" placeholder="Enter your email" required 
-                                   class="px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-hex-primary">
-                            <button type="submit" class="bg-hex-primary text-white font-black text-xs uppercase py-3 rounded-xl shadow-lg hover:bg-blue-600 transition-colors">
-                                Secure Early Access
-                            </button>
-                        </form>
-                        <p class="text-[9px] text-slate-400 mt-4 text-center italic">Local-first architecture. Privacy for Humanity.</p>
                     </div>
                 </div>
             </div>
@@ -231,59 +273,59 @@
         </section>
 
         <section id="logic" class="section-view">
-			<div class="flex flex-col lg:flex-row gap-16 items-center">
-				<div class="lg:w-1/2">
-					<h2 class="text-hex-primary font-black text-xs uppercase tracking-[0.3em] mb-4">The Logic Standard</h2>
-					<h3 class="text-4xl font-black text-slate-900 mb-8 uppercase italic leading-tight">Dimensional Integrity</h3>
-					
-					<div class="bg-blue-50 p-8 rounded-[2rem] border-l-4 border-hex-primary mb-8">
-						<p class="text-slate-700 leading-relaxed italic text-sm">
-							"The <strong>'Hex'</strong> in HexTodo represents the six dimensions of a professional operation. Every task is anchored to a structural logic that prevents operational failure: if even one side of the hexagon is weak, the <strong>task</strong> collapses. We build on the <strong>5W1H standard</strong> to ensure that your focus is protected and your resources are never wasted."
-						</p>
-					</div>
-		
-					<div class="grid grid-cols-2 gap-4">
-						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
-							<div class="w-8 h-8 hexagon bg-hex-primary flex items-center justify-center text-white text-[10px] font-bold">W1</div>
-							<div class="flex flex-col">
-								<span class="text-[10px] text-slate-400 font-black uppercase">What</span>
-								<span class="text-xs font-bold text-slate-800 italic">Action</span>
-							</div>
-						</div>
-						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
-							<div class="w-8 h-8 hexagon bg-hex-secondary flex items-center justify-center text-white text-[10px] font-bold">H1</div>
-							<div class="flex flex-col">
-								<span class="text-[10px] text-slate-400 font-black uppercase">How</span>
-								<span class="text-xs font-bold text-slate-800 italic">SOP</span>
-							</div>
-						</div>
-						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
-							<div class="w-8 h-8 hexagon bg-emerald-500 flex items-center justify-center text-white text-[10px] font-bold">W4</div>
-							<div class="flex flex-col">
-								<span class="text-[10px] text-slate-400 font-black uppercase">Where</span>
-								<span class="text-xs font-bold text-slate-800 italic">Assets</span>
-							</div>
-						</div>
-						<div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
-							<div class="w-8 h-8 hexagon bg-amber-500 flex items-center justify-center text-white text-[10px] font-bold">W3</div>
-							<div class="flex flex-col">
-								<span class="text-[10px] text-slate-400 font-black uppercase">When</span>
-								<span class="text-xs font-bold text-slate-800 italic">Schedule</span>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<div class="lg:w-1/2 w-full bg-white p-12 rounded-[3rem] border border-slate-200 shadow-xl relative">
-					<div class="absolute top-8 right-12 text-[10px] font-black text-slate-300 uppercase tracking-widest italic">Hex-Logic Analysis</div>
-					<h4 class="text-center font-bold text-slate-400 uppercase tracking-[0.2em] text-[10px] mb-8">Stability Radar</h4>
-					<div class="h-80">
-						<canvas id="logicChart"></canvas>
-					</div>
-					<p class="text-center text-[10px] text-slate-400 mt-6 italic">Visualizing the integrity of a standard professional task.</p>
-				</div>
-			</div>
-		</section>
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2">
+                    <h2 class="text-hex-primary font-black text-xs uppercase tracking-[0.3em] mb-4">The Logic Standard</h2>
+                    <h3 class="text-4xl font-black text-slate-900 mb-8 uppercase italic leading-tight">Dimensional Integrity</h3>
+                    
+                    <div class="bg-blue-50 p-8 rounded-[2rem] border-l-4 border-hex-primary mb-8">
+                        <p class="text-slate-700 leading-relaxed italic text-sm">
+                            "The <strong>'Hex'</strong> in HexTodo represents the six dimensions of a professional operation. Every task is anchored to a structural logic that prevents operational failure: if even one side of the hexagon is weak, the <strong>task</strong> collapses. We build on the <strong>5W1H standard</strong> to ensure that your focus is protected and your resources are never wasted."
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+                            <div class="w-8 h-8 hexagon bg-hex-primary flex items-center justify-center text-white text-[10px] font-bold">W1</div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-black uppercase">What</span>
+                                <span class="text-xs font-bold text-slate-800 italic">Action</span>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+                            <div class="w-8 h-8 hexagon bg-hex-secondary flex items-center justify-center text-white text-[10px] font-bold">H1</div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-black uppercase">How</span>
+                                <span class="text-xs font-bold text-slate-800 italic">SOP</span>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+                            <div class="w-8 h-8 hexagon bg-emerald-500 flex items-center justify-center text-white text-[10px] font-bold">W4</div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-black uppercase">Where</span>
+                                <span class="text-xs font-bold text-slate-800 italic">Assets</span>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3">
+                            <div class="w-8 h-8 hexagon bg-amber-500 flex items-center justify-center text-white text-[10px] font-bold">W3</div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-black uppercase">When</span>
+                                <span class="text-xs font-bold text-slate-800 italic">Schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 w-full bg-white p-12 rounded-[3rem] border border-slate-200 shadow-xl relative">
+                    <div class="absolute top-8 right-12 text-[10px] font-black text-slate-300 uppercase tracking-widest italic">Hex-Logic Analysis</div>
+                    <h4 class="text-center font-bold text-slate-400 uppercase tracking-[0.2em] text-[10px] mb-8">Stability Radar</h4>
+                    <div class="h-80">
+                        <canvas id="logicChart"></canvas>
+                    </div>
+                    <p class="text-center text-[10px] text-slate-400 mt-6 italic">Visualizing the integrity of a standard professional task.</p>
+                </div>
+            </div>
+        </section>
 
         <section id="roadmap" class="section-view">
             <div class="text-center mb-16">
@@ -307,7 +349,11 @@
                 <div class="p-8 bg-white rounded-[2.5rem] border border-slate-200 shadow-sm">
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Phase 2</span>
                     <h4 class="font-bold text-xl mt-4 mb-4 text-slate-800">Core Engineering</h4>
-                    <p class="text-xs text-slate-500">Currently architecting the Flet/Python framework and local asset mapping protocols.</p>
+                    <ul class="text-[10px] text-slate-500 space-y-2 uppercase tracking-wide">
+                        <li>• Flet/Python Framework</li>
+                        <li>• Local Asset Mapping</li>
+                        <li>• SOP Editor Core</li>
+                    </ul>
                     <p class="mt-6 text-[10px] font-black text-hex-secondary uppercase tracking-widest">IN PROGRESS</p>
                 </div>
                 <div class="p-8 bg-white rounded-[2.5rem] border border-slate-200 opacity-50">
@@ -325,24 +371,25 @@
 
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-20 px-6">
+    <footer class="bg-white border-t border-slate-200 py-20 px-6 mt-12">
         <div class="max-w-3xl mx-auto text-center">
             <h3 class="text-2xl font-black text-slate-900 mb-2 uppercase italic underline decoration-hex-primary underline-offset-8">THANKS BE TO GOD!</h3>
             <p class="text-[10px] font-black text-hex-primary uppercase tracking-[0.4em] mb-10">To God Be The Glory</p>
             <p class="text-slate-400 text-sm leading-relaxed mb-10 italic">
                 HexTodo: Built for the practical steward. Focus on operation, not in managing.
             </p>
-            <div class="flex justify-center gap-8 text-[9px] font-black text-slate-300 uppercase tracking-widest">
+            <div class="flex flex-wrap justify-center gap-6 text-[9px] font-black text-slate-300 uppercase tracking-widest">
                 <span>Philippines Base</span>
-                <span>•</span>
+                <span class="hidden sm:inline">•</span>
                 <span>Localhost-First</span>
-                <span>•</span>
+                <span class="hidden sm:inline">•</span>
                 <span>Python/Flet Engine</span>
             </div>
         </div>
     </footer>
 
     <script>
+        // Navigation Logic
         function nav(id) {
             document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -352,6 +399,20 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Modal Logic
+        const modal = document.getElementById('waitlist-modal');
+        function toggleModal() {
+            modal.classList.toggle('active');
+        }
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                toggleModal();
+            }
+        });
+
+        // Initialize Chart
         const ctx = document.getElementById('logicChart').getContext('2d');
         new Chart(ctx, {
             type: 'radar',
@@ -380,6 +441,7 @@
             }
         });
 
+        // Set initial active state
         document.getElementById('btn-overview').classList.add('nav-active');
     </script>
 </body>
