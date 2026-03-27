@@ -74,9 +74,11 @@
 
     <nav class="fixed top-0 w-full z-40 glass">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-hex-dark hexagon flex items-center justify-center text-white font-black text-[10px]">HEX</div>
-                <span class="text-2xl font-black tracking-tighter uppercase text-slate-900">HexTodo</span>
+			<div class="flex items-center gap-3">
+                <img src="HexTodo.svg" alt="HexTodo Logo" class="w-10 h-10 object-contain drop-shadow-sm">
+                <span class="text-2xl tracking-tighter font-semibold" style="font-family: 'Segoe UI', sans-serif;">
+                    <span class="text-[#0078D7]">Hex</span><span class="text-[#000000]">Todo</span>
+                </span>
             </div>
             <div class="hidden lg:flex gap-10 text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.2em]">
                 <button onclick="nav('overview')" id="btn-overview" class="hover:text-hex-primary transition-all pb-1">Overview</button>
@@ -92,7 +94,7 @@
         <div class="modal-content bg-white w-full max-w-md rounded-[2.5rem] p-10 relative shadow-2xl border border-slate-200">
             <button onclick="toggleModal()" class="absolute top-6 right-6 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors font-bold">✕</button>
             
-            <div class="w-12 h-12 bg-hex-primary hexagon flex items-center justify-center text-white font-black text-[12px] mb-6 shadow-lg shadow-blue-200">HEX</div>
+            <img src="HexTodo.svg" alt="HexTodo Logo" class="w-14 h-14 object-contain mb-6 drop-shadow-xl">
             <h4 class="text-2xl font-black text-slate-900 mb-2 uppercase italic tracking-tight">Research-First Waitlist</h4>
             <p class="text-sm text-slate-500 mb-8 italic leading-relaxed">Secure your spot for the early access beta. Local-first architecture. Privacy for Humanity.</p>
             
